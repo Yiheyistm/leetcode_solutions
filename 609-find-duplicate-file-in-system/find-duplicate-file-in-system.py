@@ -9,7 +9,6 @@ class Solution:
                 e = new_pt[j].index(')')
                 key = new_pt[j][s + 1:e]
                 path = new_pt[0] + "/" + new_pt[j][:new_pt[j].index('(')]
-                # file_dict[new_pt[j][s + 1:e]] = new_pt[0] + "/" + new_pt[j][:new_pt[j].index('(')]
                 if key in file_dict:
                     file_dict[key].append(path)
                 else:
