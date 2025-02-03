@@ -5,13 +5,12 @@ class Solution:
         for i in range(len(matches)):
             winner, looser = matches[i]
             players[looser] = players.get(looser, 0) + 1
-            if winner in players and players[winner] != 0:
-                players.get(winner, 0) + 1
-            else:
+            if winner not in players:
                 players[winner] = 0
+                
         ans1 = []
         ans2  = []
-        
+
         for key, value in players.items():
             if value == 0:
                 ans1.append(key)
