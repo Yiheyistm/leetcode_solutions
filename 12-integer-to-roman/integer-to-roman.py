@@ -2,11 +2,17 @@ class Solution:
     def intToRoman(self, num: int) -> str:
         num_map = {
             1000: "M",
+            900: 'CM',
             500: "D",
+            400: "CD",
             100: "C",
+            90: "XC",
             50: "L",
+            40: "XL",
             10: "X",
+            9: "IX",
             5: "V",
+            4: "IV",
             1: "I",          
             
         }
@@ -14,25 +20,9 @@ class Solution:
         ans = ''
         for key, value in num_map.items():
             while num >= key:
-                print('4' == str(num)[0])
-                if '4' == str(num)[0]:
-                    mx = min(k for k in num_map if k >= num)
-                    ans += num_map[key] + num_map[mx]
-                    dif = 4 * key
-                    num -= dif
-                    print(ans, mx,dif, num)
-                elif '9' == str(num)[0]:
-                    mn = min(k for k in num_map if k <= num and len(str(k)) == len(str(num)))
-                    mx = min(k for k in num_map if k >= num)
-                    ans += num_map[mn] + num_map[mx]
-                    dif = 9 * mn
-                    num -= dif
-                    print(ans, mx,dif, num)
-                    
-                else:
-                    ans += num_map[key]
-                    num -= key
-                    print(ans, num)
+                ans += num_map[key]
+                num -= key
+                print(ans, num)
         return ans
 
 
