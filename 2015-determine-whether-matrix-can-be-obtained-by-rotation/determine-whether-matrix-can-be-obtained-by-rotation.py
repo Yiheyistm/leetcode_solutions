@@ -17,7 +17,6 @@ class Solution:
             for i in range(n):
                 for j in range(n):
                     result[i][j] = mat[n-j -1][i]
-            self.show(result)
             if result == target:
                 return True
             mat = result.copy()
