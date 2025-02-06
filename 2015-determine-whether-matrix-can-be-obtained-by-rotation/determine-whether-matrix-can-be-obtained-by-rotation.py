@@ -8,18 +8,14 @@ class Solution:
         n = len(mat)
         if mat == target:
             return True
-
+        result = [[0 for _ in range(n)] for _ in range(n)]
         for _ in range(4):
-
-            result = [
-             [0 for _ in range(n)] for _ in range(n)
-            ]
             for i in range(n):
                 for j in range(n):
                     result[i][j] = mat[n-j -1][i]
             if result == target:
                 return True
-            mat = result.copy()
+            mat = copy.deepcopy(result)
         return False
 
         
