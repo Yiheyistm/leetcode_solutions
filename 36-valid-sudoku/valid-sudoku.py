@@ -5,7 +5,6 @@ class Solution:
             if i == a or j == b:
                 return False
         tr_i, tr_j = a // 3, b // 3
-        print(tr_i, tr_j)
         for i in range(tr_i * 3, tr_i * 3 + 3):
             for j in range(tr_j * 3, tr_j * 3 + 3):
                 if board[i][j] == board[a][b] and a != i and b != j:
@@ -22,7 +21,6 @@ class Solution:
                     if ckr:
                         sodoku_map[cell].append([i,j])
                     else:
-                        print(sodoku_map)
                         return False
                 elif cell.isalnum():
                     sodoku_map[cell].append([i,j])
