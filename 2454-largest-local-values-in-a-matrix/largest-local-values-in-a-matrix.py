@@ -2,7 +2,6 @@ class Solution:
     def largestLocal(self, grid: List[List[int]]) -> List[List[int]]:
         n = len(grid)
         maxLocal = [[ 0 for _ in range(n - 2)] for _ in range(n - 2)]
-        print(maxLocal)
         i = j = 0
         i_count = 0
         while i < n - 2:
