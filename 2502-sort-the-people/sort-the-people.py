@@ -7,6 +7,5 @@ class Solution:
                 if heights[max_idx] <= heights[j]:
                      heights[j], heights[max_idx] = heights[max_idx], heights[j]
                      names[j], names[max_idx] = names[max_idx], names[j]
-        
         return names
         
