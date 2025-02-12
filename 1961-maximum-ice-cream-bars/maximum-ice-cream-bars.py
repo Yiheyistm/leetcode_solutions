@@ -10,12 +10,11 @@ class Solution:
                 costs[target] = i
                 target += 1
         
-        sm = 0
         no_shop = 0
         for coin in costs:
-            sm += coin
-            if sm > coins:
+            if coin > coins:
                 break
+            coins -= coin
             no_shop += 1
         return no_shop
         
