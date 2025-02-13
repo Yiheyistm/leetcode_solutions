@@ -1,10 +1,12 @@
 class Solution:
     def clearDigits(self, s: str) -> str:
+        s = list(s)
         i = 0
         while i < len(s):
             if s[i].isdigit():
-                s = s[:i - 1] + s[i + 1:]
+                del s[i]
+                del s[i - 1]
                 i -= 2
             i += 1
-        return s
+        return ''.join(s)
         
