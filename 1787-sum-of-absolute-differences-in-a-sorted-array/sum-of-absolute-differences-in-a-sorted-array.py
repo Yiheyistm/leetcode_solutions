@@ -9,18 +9,13 @@ class Solution:
         '''
         n = len(nums)
         ans = []
-        # Prefix sum
-        pfx = [0]
-        for i in range(n):
-            pfx.append(pfx[-1] + nums[i])
-        # Suffix sum
-        sfx = [0] * (n + 1)
-        for j in range(n - 1, -1, -1):
-            sfx[j] = sfx[j + 1] + nums[j]
-   
+        pfx = 0
+        sfx = sum(nums)
         for k in range(n):
-            l = k*nums[k] - pfx[k]
-            r = sfx[k + 1] - (n - k - 1)*nums[k]
+            sfx -= nums[k]
+            l = k*nums[k] - pfx
+            r = sfx - (n - k - 1)*nums[k]
+            pfx += nums[k]
             ans.append(l + r)
         return ans
 
