@@ -1,5 +1,6 @@
 class Solution:
     def sumSubarrayMins(self, arr: List[int]) -> int:
+        arr.append(float('-inf')) # Since i use monotonic stack float('-inf') helps to pop all element from the stack
         sm = 0
         stk = []
         no_sub = 0
@@ -12,12 +13,5 @@ class Solution:
                 right = i - idx # Distace to next smaller
                 sm = (sm + (arr[idx] * left * right)) % MOD
             stk.append(i)
-        
-        # Process the remainig stack
-        while stk:
-            idx = stk.pop()
-            left = idx - (stk[-1] if stk else -1) # Distace to previous smaller
-            right = len(arr) - idx # Distance to the end of the arry
-            sm = (sm + (arr[idx] * left * right)) % MOD
         return sm
             
