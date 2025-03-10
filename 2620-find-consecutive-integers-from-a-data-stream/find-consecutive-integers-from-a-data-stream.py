@@ -2,20 +2,14 @@ class DataStream:
 
     def __init__(self, value: int, k: int):
         self.stream = []
-        self.diffIdx = None
-        self.kVAL = k
+        self.k = k
         self.val = value      
 
     def consec(self, num: int) -> bool:
         self.stream.append(num)
         if num != self.val:
-            self.diffIdx = len(self.stream)-1
-        if len(self.stream) >= self.kVAL:
-            if self.diffIdx == None: 
-                return True
-            elif self.diffIdx != None and (len(self.stream) - self.diffIdx > self.kVAL):
-                return True
-        return False
+            self.stream = []
+        return len(self.stream) >= self.k
 
         
 
