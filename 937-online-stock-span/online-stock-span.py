@@ -7,10 +7,9 @@ class StockSpanner:
 
     def next(self, price: int) -> int:
         span = 1 # every price is equal itself
-        for p in self.stack:
-            while self.stack and self.stack[-1][0] <= price:
-                _, s = self.stack.pop() 
-                span += s
+        while self.stack and self.stack[-1][0] <= price:
+            _, s = self.stack.pop() 
+            span += s
         self.stack.append([price, span])
         return self.stack[-1][1]
         
