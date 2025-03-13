@@ -6,16 +6,19 @@ class Solution:
                 stack.append(ch)
 
             else:
-                st = ''
+                decoded_char = []
+                decoded_digit = []
                 while stack and stack[-1] != '[':
-                    st = stack.pop() + st
-
+                    decoded_char.append(stack.pop())
                 stack.pop()
-                n = ''
+                
                 while stack and stack[-1].isdigit():
-                    n = stack.pop() + n
-
-                stack.append(st * int(n))
+                    decoded_digit.append(stack.pop())
+                
+                decoded_str = ''.join(reversed(decoded_char))
+                decoded_k = ''.join(reversed(decoded_digit))
+                stack.append(decoded_str * int(decoded_k))
+                
         return ''.join(stack)
 
 
