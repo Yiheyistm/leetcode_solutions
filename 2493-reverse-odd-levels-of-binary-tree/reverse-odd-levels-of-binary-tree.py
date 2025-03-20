@@ -6,14 +6,26 @@
 #         self.right = right
 class Solution:
     def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def oddReverse(node1, node2, level):
-            if not node1:
-                return
+
+        dq = deque([root])
+        level = 0
+
+        while dq:
+            curr = []
+            node = []
+            for i in range(len(dq)):
+                poped = dq.popleft()
+                node.append(poped)
+                curr.append(poped.val)
+                if poped.left:
+                    dq.append(poped.left)
+                if poped.right:
+                    dq.append(poped.right)
             if level % 2:
-                node1.val, node2.val = node2.val, node1.val
-            oddReverse(node1.left, node2.right, level + 1)
-            oddReverse(node1.right, node2.left, level + 1)
-        
-        oddReverse(root.left, root.right, 1)
+                for j in range(len(node)):
+                    node[j].val = curr.pop()
+            level += 1
         return root
+
+
         
