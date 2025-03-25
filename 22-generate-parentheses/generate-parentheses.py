@@ -4,7 +4,7 @@ class Solution:
         def generate(store):
             if len(store) == 2 * n:
                 check = []
-                temp = store
+                temp = store.copy()
                 for ch in temp:
                     if ch == '(':
                         check.append(ch)
@@ -20,10 +20,12 @@ class Solution:
                 return
 
             for b in ['(',')']:
-                nw = store + b
-                generate(nw)
+                
+                store.append(b)
+                generate(store)
+                store.pop()
 
-        generate('')
+        generate([])
         return valid_par
 
 
