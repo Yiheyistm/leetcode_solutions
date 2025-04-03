@@ -1,9 +1,21 @@
-from collections import Counter
 class Solution:
     def findDuplicates(self, nums: List[int]) -> List[int]:
-        double_dict = Counter(nums)
-        res = []
-        for k in double_dict:
-            if double_dict[k] > 1:
-                res.append(k)
-        return res
+        i = 0
+        res = set()
+        n = len(nums)
+        no_dup = 0
+        while i < n - no_dup:
+            correct_pos = nums[i] -1
+            if correct_pos == i:
+                i += 1
+            else:
+                
+                if nums[i] == nums[correct_pos]:
+                    res.add(nums[i])
+                    no_dup += 1
+                    nums[i], nums[-no_dup] = nums[-no_dup], nums[i]
+                else:
+                    nums[correct_pos], nums[i] = nums[i], nums[correct_pos]
+        return list(res)
+            
+        
