@@ -6,7 +6,6 @@ class Solution:
             mid = (l + r) // 2
             rw = (mid) // m
             cl = (mid) % m
-            print(rw, cl, mid)
             val = matrix[rw][cl]
             if val == target:
                 return True
