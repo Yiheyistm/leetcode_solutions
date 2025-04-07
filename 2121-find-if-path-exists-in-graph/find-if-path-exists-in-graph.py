@@ -1,24 +1,24 @@
 class Solution:
     def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
         graph = defaultdict(list)
-        visited = set()
+        visited = set([source])
+        stack = [source]
         for i,j in edges:
             graph[i].append(j)
             graph[j].append(i)
 
-        def dfs(vertex):
-            if destination == vertex:
+        while stack:
+            node = stack.pop()
+            if destination == node:
                 return True
 
-            visited.add(vertex)
-            for neigh in graph[vertex]:
+            for neigh in graph[node]:
                 if neigh not in visited:
-                    if dfs(neigh):
-                        return True
-            return False
+                    visited.add(neigh)
+                    stack.append(neigh)
 
-        return dfs(source)
-        
+        return False
+
             
 
 
