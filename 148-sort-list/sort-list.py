@@ -24,27 +24,23 @@ class Solution:
                 trav.next = l
 
             return dummy.next
-        def divide(node):
-            if not node or not node.next:
-                return node
-            slow = node
-            fast = node
-            while fast and fast.next:
-                fast = fast.next.next
-                if fast:
-                    slow = slow.next
 
-            left = ListNode(0)
-            trav = left
-            curr = node
-            while curr != slow.next:
-                trav.next = ListNode(curr.val) 
-                curr = curr.next
-                trav = trav.next
-            return merge(divide(left.next), divide(slow.next))
+        if not head or not head.next:
+            return head
+
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+
+        left = head
+        right = slow.next
+        slow.next = None
+        return merge(self.sortList(left), self.sortList(right))
+
 
         
-        return divide(head)
             
 
                 
