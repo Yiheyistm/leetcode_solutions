@@ -3,10 +3,11 @@ class Solution:
         def check(mid):
             no_child = 0
             for cd in candies:
-                no_child += floor(cd / mid)
+                no_child += cd // mid
             return no_child >= k
+
         l = 0
-        h = max(candies) + 1
+        h = sum(candies) // k + 1
         while l + 1 < h:
             md = (l + h) // 2
             if check(md):
