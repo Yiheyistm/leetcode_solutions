@@ -9,14 +9,13 @@ class Solution:
         dq = deque([root])
         root_val = root.val
         while dq:
-            for i in range(len(dq)):
-                node = dq.popleft()
-                if node.val != root_val:
-                    return False
-                if node.left:
-                    dq.append(node.left)
-                if node.right:
-                    dq.append(node.right)
+            node = dq.popleft()
+            if node.val != root_val:
+                return False
+            if node.left:
+                dq.append(node.left)
+            if node.right:
+                dq.append(node.right)
         return True
                 
 
