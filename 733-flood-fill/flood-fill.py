@@ -1,17 +1,17 @@
 class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
-        directions = [(1,0), (-1, 0), (0,1), (0,-1)]
-        dq = deque([(sr, sc)])
+        def dfs(r, c):
+            if r < 0 or c < 0 or r >= len(image) or c >= len(image[0]) or image[r][c] != st_color or visited[r][c]:
+                return
+            image[r][c] = color
+            visited[r][c] = True
+            dfs(r, c + 1)
+            dfs(r, c - 1)
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+
         visited = [[False] * len(image[0]) for _ in range(len(image))]
         st_color = image[sr][sc]
-        image[sr][sc] = color
-        while dq:
-            x, y = dq.popleft()
-            for dr, dc in directions:
-                nr, nc = x + dr, y + dc
-                if 0 <= nr < len(image) and 0 <= nc < len(image[0]) and image[nr][nc] == st_color and not visited[nr][nc]:
-                    dq.append((nr, nc))
-                    visited[nr][nc] = True
-                    image[nr][nc] = color
+        dfs(sr, sc)
         return image
         
