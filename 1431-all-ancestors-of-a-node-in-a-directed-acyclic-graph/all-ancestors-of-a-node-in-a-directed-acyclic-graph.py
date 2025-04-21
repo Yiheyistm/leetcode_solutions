@@ -1,23 +1,24 @@
 class Solution:
     def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
-        answer = [[] for _ in range(n)]
+        answer = [set() for _ in range(n)]
         graph = defaultdict(list)
+        indegree = defaultdict(int)
         for u, v in edges:
-            graph[v].append(u)
-        for i in range(n):
-            path = deque(graph[i])
-            visited = set()
-            while path:
-                p = path.popleft()
-                if p not in visited:
-                    answer[i].append(p)
-                    visited.add(p)
-                for ch in graph[p]:
-                    if ch not in visited:
-                        visited.add(ch)
-                        path.append(ch)
-                        answer[i].append(ch)
+            graph[u].append(v)
+            indegree[v] += 1
 
-            answer[i].sort()
+        q = deque()
+        for i in range(n):
+            if not indegree[i]:
+                q.append(i) 
+        
+        while q:
+            p = q.popleft()
+            for neigh in graph[p]:
+                answer[neigh] |= answer[p] | {p}
+                indegree[neigh] -= 1
+                if not indegree[neigh]:
+                    q.append(neigh)
+            answer[p] = sorted(answer[p])
         return answer
         
