@@ -1,27 +1,28 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
-        '''
-        Coloring
-        -1 = Red
-        -2 = Blue
-        '''
-        bipart = defaultdict(int)
-        
-        for i in range(len(graph)):
-            if bipart[i] == 0:
-                bipart[i] = -1
-                dq = deque([i])
-                while dq:
-                    pp = dq.popleft()
-                    nx_cr = -1 if bipart[pp] == -2 else -2
-                    for neigh in graph[pp]:
-                        if bipart[neigh] == 0:
-                            bipart[neigh] = nx_cr
-                            dq.append(neigh)
-                        elif bipart[neigh] == bipart[pp]:
-                            return False
+        def dfs(p):
+            temp = True
+            for neigh in graph[p]:
+                if color[neigh] == -1:
+                    if color[p] == 0:
+                        color[neigh] = 1
+                    else:
+                        color[neigh] = 0
+                    temp = temp and dfs(neigh)
+                elif color[p] == color[neigh]:
+                    return False
+            return temp
 
-        return True
+
+        color = [ -1 for _ in range(len(graph))]
+        ans = True
+        for node in range(len(graph)):
+            if color[node] == -1:
+                color[node] = 0
+                ans = ans and dfs(node)
+        return ans
+
+        
 
 
         
