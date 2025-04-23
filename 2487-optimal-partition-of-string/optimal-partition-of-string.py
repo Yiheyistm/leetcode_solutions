@@ -1,11 +1,11 @@
 class Solution:
     def partitionString(self, s: str) -> int:
         mn = 1
-        st = set()
+        substr = ''
         for ch in s:
-            if ch not in st: st.add(ch)
-            else:
+            if ch in substr :
                 mn += 1
-                st = set(ch)
+                substr = ''
+            substr += ch
         return mn
         
