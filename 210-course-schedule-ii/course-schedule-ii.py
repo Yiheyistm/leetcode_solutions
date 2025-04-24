@@ -1,21 +1,26 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        def topSort(node):
+            if color[node] == 1:
+                return False
+            color[node] = 1
+            for ch in graph[node]:
+                if color[ch] == 2: continue
+                if not topSort(ch):
+                    return False
+            order.append(node)
+            color[node] = 2
+            return True
+
         graph = defaultdict(list)
-        inDegree = defaultdict(int)
+        color = [0 for _ in range(numCourses)] # 0 -> White, 1 -> Grey, 2 -> Black
+        order = []
         for a,b in prerequisites:
             graph[b].append(a)
-            inDegree[a] += 1
         
-        path = deque([i for i in range(numCourses) if inDegree[i] == 0])
-        res = []
-        while path:
-            p = path.popleft()
-            res.append(p)
-            for neigh in graph[p]:
-                inDegree[neigh] -= 1
-                if not inDegree[neigh]:
-                    path.append(neigh)
-            if not path and len(res) != numCourses:
+        for node in range(numCourses):
+            if color[node] != 0: continue
+            if not topSort(node):
                 return []
-        return res
-        
+
+        return order[::-1]
