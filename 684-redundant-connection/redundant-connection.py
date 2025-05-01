@@ -8,17 +8,17 @@ class Solution:
             parX = find(x)
             parY = find(y)
             if parX != parY:
-                if size[parX] >= size[parY]:
+                if rank[parX] > rank[parY]:
                     parent[parY] = parX
-                    size[parX] += size[parY]
+                elif rank[parY] > rank[parX]:
+                    parent[parX] = parY
                 else:
                     parent[parX] = parY
-                    size[parY] += size[parX]
+                    rank[parY] += 1
 
         n = len(edges)
         parent = {i:i for i in range(1, n + 1)}
-        size = [1] * (n + 1)
-
+        rank = [0] * (n + 1)
         for a, b in edges:
             if find(a) == find(b):
                 return [a, b]
