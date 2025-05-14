@@ -1,19 +1,17 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        res = []
-        def backtrack(idx, subset):
-            nonlocal nums,res
-            if idx <= len(nums):
-                res.append(subset[:])
-            if idx > len(nums):
-                return
+        ans = []
+        n = len(nums)
+        for i in range(2**n):
+            temp = []
+            k = 0
+            while i > 0:
+                if i & 1:
+                    temp.append(nums[n - k -1])
+                i = i >> 1
+                k += 1
+            ans.append(temp)
+        return ans
 
-            for j in range(idx, len(nums)):
-                subset.append(nums[j])
-                backtrack(j + 1, subset)
-                subset.pop()
-        backtrack(0, [])
-        return res
-        
 
         
