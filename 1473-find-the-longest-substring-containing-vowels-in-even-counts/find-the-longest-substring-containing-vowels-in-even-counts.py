@@ -11,15 +11,16 @@ class Solution:
         
         pairs.sort()
         max_ = 0
-        i = 0
-        while i < len(pairs):
-            curr = i
-            for j in range(i + 1, len(pairs)):
-                if pairs[i][0] ^ pairs[j][0] == 0:
-                    max_ = max(max_, pairs[j][1] - pairs[i][1])
-                    curr = j
-                else:
-                    curr = j
-                    break
-            i = curr if curr != i else i + 1
-        return max_
+        l = 0
+        diff = False
+        for r in range(1, len(pairs)):
+            diff = False
+            if pairs[r][0] ^ pairs[l][0] != 0:
+                max_ = max(max_, pairs[r - 1][1] - pairs[l][1])
+                diff = True
+                l = r
+            
+        if not diff:
+            max_ = max(max_, pairs[-1][1] - pairs[l][1])
+
+        return max_ if xor_pfx[-1] else len(s)
