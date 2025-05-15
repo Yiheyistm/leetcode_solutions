@@ -8,13 +8,18 @@ class Solution:
             else:
                 xor_pfx.append(xor_pfx[-1])
         pairs = [[xor_pfx[i], i] for i in range(len(xor_pfx))] 
-
-        distance = defaultdict(list)
-        for val, i in pairs:
-            distance[val].append(i)
-
-        max_diff = 0
-        for lst in distance.values():
-            max_diff = max(max_diff, max(lst) - min(lst))
-  
-        return max_diff
+        
+        pairs.sort()
+        max_ = 0
+        i = 0
+        while i < len(pairs):
+            curr = i
+            for j in range(i + 1, len(pairs)):
+                if pairs[i][0] ^ pairs[j][0] == 0:
+                    max_ = max(max_, pairs[j][1] - pairs[i][1])
+                    curr = j
+                else:
+                    curr = j
+                    break
+            i = curr if curr != i else i + 1
+        return max_
