@@ -1,4 +1,8 @@
 class Solution:
     def hammingWeight(self, n: int) -> int:
-        return sum(map(int,list(bin(n)[2:])))
+        cnt = 0
+        while n > 0:
+            if n & 1: cnt += 1
+            n >>=1
+        return cnt
         
