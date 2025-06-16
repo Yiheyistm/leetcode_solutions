@@ -9,7 +9,6 @@ class Solution:
         for r in range(1, n):
             while l < r and nums[r] - nums[r -1] != 1:
                 l += 1
-            print(l, r)
             if r - l + 1 == k:
                 result[l] = nums[r]
                 l += 1
