@@ -1,23 +1,16 @@
 class Solution:
     def findPairs(self, nums: List[int], k: int) -> int:
-        def checker(num, i):
-            nonlocal k
-            l = i
-            h = len(nums)
-            while l + 1 < h:
-                mid = (l + h) // 2
-                if abs(num - nums[mid]) == k and (num, nums[mid]) not in pairs:
-                    pairs.add((num, nums[mid]))
-                    return
-                elif abs(num - nums[mid]) == k and (num, nums[mid]) in pairs:
-                    return
-                elif abs(num - nums[mid]) > k: h = mid
-                else: l = mid
-            
-        nums.sort()   
-        pairs = set()
-        for i in range(len(nums)):
-            checker(nums[i], i)
-        return len(pairs)
+        cnt = 0
+        if k == 0:
+            num_cntr = Counter(nums)
+            for k, v in num_cntr.items():
+                if v > 1:
+                    cnt += 1
+        else:            
+            seen = set(nums)
+            for num in seen:
+                if num + k in seen:
+                    cnt += 1
+        return cnt
 
         
