@@ -8,36 +8,36 @@ class Solution:
         if not head.next:
             return head
         
-        dummy = ListNode()
-        dummy.next = head
-        lNode, lPrev = None, dummy
+        lNodeVal = -1
+        rNodeVal = -1
         cur = head
         totalNode = 0
         while cur:
             totalNode += 1
-            if totalNode + 1 == k:
-               lPrev = cur
             if totalNode == k:
-               lNode = cur
+               lNodeVal = cur.val
             cur = cur.next
+
         # right side node found at totalNode - k + 1
-        rNode, rPrev = None, None
-        cur = dummy
+        cur = head
         i = 1
 
-        while i < totalNode - k +1:
+        while i < totalNode - k + 1:
             cur = cur.next
             i += 1
-        rPrev = cur
-        rNode = cur.next
-        
-        lPrev.next = rNode
-        rPrev.next = lNode
-        rNodeNext = rNode.next
-        rNode.next = lNode.next
-        lNode.next = rNodeNext
+        rNodeVal = cur.val
 
-        return dummy.next
+        cur = head
+        i = 1
+        while cur:
+            if i == k:
+                cur.val = rNodeVal
+            if totalNode - k + 1 == i:
+                cur.val = lNodeVal
+            cur = cur.next
+            i += 1
+ 
+        return head
 
         
 
