@@ -29,11 +29,15 @@ class Solution:
 
         cur = head
         i = 1
+        cnt = 0 # to stop the loop if both are swapped
         while cur:
+            if cnt == 2: break
             if i == k:
                 cur.val = rNodeVal
+                cnt += 1
             if totalNode - k + 1 == i:
                 cur.val = lNodeVal
+                cnt += 1
             cur = cur.next
             i += 1
  
