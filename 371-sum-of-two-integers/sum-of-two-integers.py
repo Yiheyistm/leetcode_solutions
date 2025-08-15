@@ -1,19 +1,18 @@
 class Solution:
     def getSum(self, a: int, b: int) -> int:
-        if a < 0:
-            a = a + (1 << 32)
-        if b < 0:
-            b = b + (1 << 32)
+        c = 0
+        ans = 0
+        for i in range(32):
+            al, bl = (a & 1), (b & 1)
+            cur = al ^ bl ^ c
+            c = (al & bl) | (al & c) | (bl & c)
+            ans |= cur << i
+            a >>= 1
+            b >>= 1
 
-        while b != 0:
-            carry = a & b
-            a = a ^ b
-            b = carry << 1
-            b &= 0xFFFFFFFF
-
-        if a >= (1 << 31):
-            a -= (1 << 32)
-
-        return a
+        if ans & (1 << 31): # if the ans is negative the bitlength is above 31
+            ans -= 1 << 32
         
+        return ans
+
         
