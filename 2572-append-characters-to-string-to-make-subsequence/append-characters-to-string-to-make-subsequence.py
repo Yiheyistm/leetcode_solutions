@@ -1,10 +1,10 @@
 class Solution:
     def appendCharacters(self, s: str, t: str) -> int:
-        dq = deque(list(t))
-        for ch in s:
-            if dq and ch == dq[0]:
-                dq.popleft()
-        return len(dq)
+        i, j = 0, 0
+        while i < len(t) and j < len(s):
+            if s[j] == t[i]: i += 1
+            j += 1
+        return len(t) - i
      
 
 
