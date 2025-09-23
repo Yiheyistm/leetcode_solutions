@@ -1,10 +1,11 @@
 class Solution:
     def fib(self, n: int) -> int:
-        memo = [-1] * (n + 1)
-        def dp(n):
-            if n == 1 or n == 0: return n
-            if memo[n] == -1:
-                memo[n] = dp(n -1) + dp(n - 2)
-            return memo[n]
-        return dp(n)
+        if n == 1 or n == 0:
+            return n
+        prev1, prev2 = 0, 1
+        for i in range(2, n + 1):
+            curr = prev1 + prev2
+            prev1 = prev2
+            prev2 = curr
+        return prev2
         
