@@ -15,26 +15,39 @@ class Solution:
         #     return store[i][j]
         # return dfs(0, 0)
 
-        # Bottom Up DP
+        # Bottom Up DP with 2D array
+        # m = len(obstacleGrid)
+        # n = len(obstacleGrid[0])
+        # dp = [[0] * n for _ in range(m)]
+
+        # for j in range(n): # set the first row to one if the dont have obstacle
+        #     if obstacleGrid[0][j]: break
+        #     dp[0][j] = 1 
+        # for j in range(1, m): # set the first column to one if the dont have obstacle
+        #     if obstacleGrid[j][0]: break
+        #     dp[j][0] = 1
+
+
+        # for i in range(1, m):
+        #     for j in range(1, n):
+        #         if obstacleGrid[i][j]:
+        #             dp[i][j] = 0
+        #         else:
+        #             dp[i][j] = dp[i-1][j] + dp[i][j -1]
+        # return dp[-1][-1]
+                
+
+        # Bottom Up DP with 1D array
+
         m = len(obstacleGrid)
         n = len(obstacleGrid[0])
-        dp = [[0] * n for _ in range(m)]
-
-        for j in range(n): # set the first row to one if the dont have obstacle
-            if obstacleGrid[0][j]: break
-            dp[0][j] = 1 
-        for j in range(1, m): # set the first column to one if the dont have obstacle
-            if obstacleGrid[j][0]: break
-            dp[j][0] = 1
-
-
-        print(dp)
-        for i in range(1, m):
-            for j in range(1, n):
+        dp = [0] * n
+        dp[0]= 1 
+        for i in range(m):
+            for j in range(n):
                 if obstacleGrid[i][j]:
-                    dp[i][j] = 0
-                else:
-                    dp[i][j] = dp[i-1][j] + dp[i][j -1]
-        return dp[-1][-1]
-                
+                    dp[j] = 0
+                elif j > 0:
+                    dp[j] +=dp[j -1]
+        return dp[-1]
         
