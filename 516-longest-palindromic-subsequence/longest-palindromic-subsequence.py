@@ -1,18 +1,18 @@
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)
-        memo = [[-1] * n for _ in range(n)]
-        def dp(l, r):
-            if l == r:
-                return 1
-            if l > r:
-                return 0
-            if memo[l][r] == -1:
+        dp = [[0] * (n+1) for _ in range(n +1)]
+        for i in range(n):
+            dp[i][i] = 1
+
+        for l in range(1, n):
+            for r in range(l-1, -1, -1):
                 if s[l] == s[r]:
-                    memo[l][r] = 2 + dp(l +1, r -1)
+                    dp[l][r] = 2 + dp[l -1][r +1]
                 else:
-                    memo[l][r] = max(dp(l + 1, r), dp(l, r - 1))
-            return memo[l][r]
-        return dp(0, len(s) - 1)
+                    dp[l][r] = max(dp[l - 1][r], dp[l][r + 1])
+            
+        return dp[len(s) - 1][0]
+
             
         
