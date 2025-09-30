@@ -5,19 +5,18 @@ class Solution:
         if sum_ % 2: return False
         
         target = sum_ // 2
-        memo = [[-1] * (target + 1) for _ in range(n + 1)]
-        def dp(i, sm):
-            if sm == 0:
-                return True
-            if i == n or sm < 0:
-                return False
-            if memo[i][sm] == -1:
-                take = dp(i + 1, sm - nums[i])
-                leave = dp(i + 1, sm)
-                memo[i][sm] = take or leave
-            return memo[i][sm]
-        
-        return dp(0, target)
+        dp = [[False] * (target + 1) for _ in range(n + 1)]
+
+        for i in range(n + 1):
+            dp[i][0] = True
+        for i in range(n -1, -1, -1):
+           for sm in range(target + 1):
+                leave = dp[i + 1][sm]
+                take = False
+                if sm >= nums[i]:
+                    take = dp[i + 1][sm - nums[i]]
+                dp[i][sm] = take or leave
+        return dp[0][target]
 
 
         
