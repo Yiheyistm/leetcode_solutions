@@ -1,19 +1,13 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        memo = [[-1] * (amount + 1) for _ in range(len(coins) + 1)]
-        def dfs(i, rem):
-            if rem == 0: return 1
-            if i == len(coins): return 0
+        dp = [[0] * (amount + 1) for _ in range(len(coins) + 1)]
+        for i in range(len(coins) + 1):
+            dp[i][0] = 1
 
-            if memo[i][rem] == -1:
-                leave = dfs(i + 1, rem)
-                take = 0
+        for i in range(len(coins) - 1, -1, -1):
+            for rem in range(amount + 1):
+                res = dp[i + 1][rem]
                 if rem >= coins[i]:
-                    take = dfs(i, rem - coins[i])
-                memo[i][rem] = leave + take
-            return memo[i][rem]
-        return dfs(0, amount)
-
-
-  
-        
+                    res += dp[i][rem - coins[i]]
+                dp[i][rem] = res
+        return dp[0][amount]
