@@ -5,18 +5,19 @@ class Solution:
         if sum_ % 2: return False
         
         target = sum_ // 2
-        dp = [[False] * (target + 1) for _ in range(n + 1)]
+        dp = [False] * (target + 1)
+        dp[0] = True
+        dp2 = [False] * (target + 1)
+        dp2[0] = True
 
-        for i in range(n + 1):
-            dp[i][0] = True
         for i in range(n -1, -1, -1):
            for sm in range(target + 1):
-                leave = dp[i + 1][sm]
-                take = False
                 if sm >= nums[i]:
-                    take = dp[i + 1][sm - nums[i]]
-                dp[i][sm] = take or leave
-        return dp[0][target]
+                    dp[sm] |= dp2[sm - nums[i]]
+                dp[sm] |= dp2[sm]
+
+           dp2 = dp[:]
+        return dp[target]
 
 
         
