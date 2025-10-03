@@ -1,28 +1,23 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        if len(nums) ==1: return nums[0]
-        memo = [-1] * len(nums)
-        def dfs(i):
-            if i == 0:
-                return nums[0]
-            if i == 1:
-                return max(nums[0], nums[1])
-            if memo[i] == -1:
-                memo[i] = max(dfs(i-1), dfs(i - 2) + nums[i])
-            return memo[i]
-        first =  dfs(len(nums)-2)
+        if len(nums) <= 2: return max(nums)
 
-        memo2 = [-1] * len(nums)
-        def dfs2(i):
-            if i == 1:
-                return nums[1]
-            if i == 2:
-                return max(nums[1], nums[2])
-            if memo2[i] == -1:
-                memo2[i] = max(dfs2(i-1), dfs2(i - 2) + nums[i])
-            return memo2[i]
-        sec =  dfs2(len(nums)-1)
+        def calc(dp, start, end):
+            for i in range(start, end + 1):
+                dp[i] = max(dp[i-1], dp[i - 2] + nums[i])
+            return dp[-1]
 
+        dp1 = [0] * (len(nums) -1)
+        dp1[0] = nums[0]
+        dp1[1] = max(nums[0], nums[1])
+
+        dp2 = [0] * (len(nums))
+        dp2[1] = nums[1]
+        dp2[2] = max(nums[1], nums[2])
+
+
+        first =  calc(dp1, 2, len(nums)-2)
+        sec =  calc(dp2,3, len(nums)-1)
         return max(first, sec)
 
         
