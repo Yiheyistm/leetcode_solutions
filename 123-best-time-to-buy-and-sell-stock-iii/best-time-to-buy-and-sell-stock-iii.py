@@ -1,16 +1,17 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        prfx =  []
-        prfx.append((prices[0], prices[0])) # min, max
+        prfx_max =  [0]
+        prev_mn, prev_mx = prices[0], prices[0] # min, max
         for i in range(1, len(prices)):
-            mx = max(prices[i], prfx[i - 1][1])
-            if prices[i] < prfx[i - 1][0]:
-                prfx.append((prices[i], prices[i]))
+            mx = max(prices[i], prev_mx)
+            if prices[i] < prev_mn:
+                prev_mn,prev_mx = prices[i], prices[i]
+                prfx_max.append(prfx_max[i -1])
 
             else:
-                prfx.append((prfx[i-1][0], mx))
+                prev_mx = mx
+                prfx_max.append(max(prfx_max[i - 1], prev_mx - prev_mn))
         
-
         sfx_max = [0] * len(prices)
         prev_mn, prev_mx = prices[-1], prices[-1]
         for i in range(len(prices) - 2, -1, -1):
@@ -24,23 +25,10 @@ class Solution:
 
         ans = 0
         for i in range(len(prices)-1):
-            lef = prfx[i][1] - prfx[i][0]
+            lef = prfx_max[i]
             right = sfx_max[i]
             ans = max(ans, lef + right)
         return ans
-
-
-        # heap = [0] * 2
-        # buy_p = prices[0]
-        # for i in range(len(prices)-1):
-        #     if prices[i + 1] < prices[i] and buy_p < prices[i]:
-        #         heappushpop(heap, prices[i] - buy_p)
-        #         buy_p = prices[i + 1]
-        #     buy_p = min(buy_p, prices[i])
-
-        # heappushpop(heap, prices[-1] - buy_p)
-        # return heappop(heap) + heappop(heap)
-
 
 
 
