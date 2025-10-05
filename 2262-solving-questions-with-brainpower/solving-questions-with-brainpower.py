@@ -1,12 +1,17 @@
 class Solution:
     def mostPoints(self, questions: List[List[int]]) -> int:
         N = len(questions)
-        dp = [0] * (N +1)
-        for i in range(N-1, -1, -1):
-            point, bpr = questions[i]
-            idx = i + bpr + 1 if i + bpr + 1  <= N else i
-            dp[i] = max(point + dp[idx], dp[i + 1])
-        return dp[0]
+        memo = [-1] * N
+        def dfs(i):
+            if i >= N:
+                return 0
+            if memo[-1] == -1:
+                leave = dfs(i + 1)
+                take = questions[i][0] + dfs(i + questions[i][1] + 1)
+                memo[i] = max(leave, take)
+            return memo[i]
+        return dfs(0)
+        
 
 
 
