@@ -5,12 +5,10 @@ class Solution:
             if n == 1:
                 return 0
             if n not in memo:
-                memo[n] = 1 + dfs((3 * n) + 1 if n % 2 else n // 2)
+                memo[n] = 1 + dfs((3 * n) + 1 if n & 1 else n // 2)
             return memo[n]
-            
-        ans = []
-        for n in range(lo, hi + 1):
-            ans.append((dfs(n), n))
-        ans.sort()
-        return ans[k-1][1]
+
+        ans = list(range(lo, hi+1))
+        ans.sort(key=lambda x: dfs(x))
+        return ans[k-1]
         
