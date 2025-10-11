@@ -1,4 +1,8 @@
 class Solution:
     def sortTheStudents(self, score: List[List[int]], k: int) -> List[List[int]]:
-        return sorted(score, key=lambda item: -item[k])
+        col_map = {}
+        for i, row in enumerate(score):
+            col_map[row[k]] = i
+        return [score[col_map[i]] for i in sorted(col_map.keys(), reverse= True)]
+
         
