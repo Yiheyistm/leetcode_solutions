@@ -1,5 +1,9 @@
 class Solution:
     def sortPeople(self, names: List[str], heights: List[int]) -> List[str]:
-        tuples = sorted([(names[i], heights[i]) for i in range(len(names))], key = lambda x: -x[1])
-        return [tuples[i][0] for i in range(len(names))]
+        tuples = {}
+        for i in range(len(names)):
+            tuples[heights[i]] = names[i]
+
+        heights.sort(reverse = True)
+        return [tuples[h] for h in heights]
         
