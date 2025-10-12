@@ -1,18 +1,13 @@
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
-        n = len(nums)
-        heap = []
-        freq = defaultdict(int)
+        nums.sort()
+        miss_num = 1
         for num in nums:
-            if num <= n and num > 0 and freq[num] == 0:
-                heappush(heap, num)
-                freq[num] += 1
+            if num > miss_num:
+                break
+            if num == miss_num:
+                miss_num += 1
 
-        heap_len = len(heap)
-        for i in range(1, heap_len + 1):
-            if i != heappop(heap):
-                return i
-        return heap_len + 1
-        
+        return miss_num
 
         
