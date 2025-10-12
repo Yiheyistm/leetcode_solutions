@@ -1,19 +1,16 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        pare_dict = {
-            '(': ')',
-            '{': '}', 
-            '[': ']'
-        }
+        matched_parentheses = {"(": ")", "[": "]", "{": "}"}
         stack = []
-        for par in s:
-            
-            if par in pare_dict:
-                stack.append(par)
-            elif stack and pare_dict[stack[-1]] == par:
+        for p in s:
+            if p in "([{":
+                stack.append(p)
+            elif p in ")]}" and stack:
+                if matched_parentheses[stack[-1]] != p:
+                    return False
                 stack.pop()
             else:
                 return False
 
-        return stack == []
+        return True if not stack else False
         
