@@ -2,10 +2,10 @@ class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
         target = len(graph) - 1
         res = []
-        queue = deque([[0]])
+        stack = [[0]]
         
-        while queue:
-            current_path = queue.popleft()
+        while stack:
+            current_path = stack.pop()
             node = current_path[-1]
             
             if node == target:
@@ -15,7 +15,7 @@ class Solution:
             for neigh in graph[node]:
                 new_path = list(current_path)
                 new_path.append(neigh)
-                queue.append(new_path)
+                stack.append(new_path)
                                 
         return res
 
