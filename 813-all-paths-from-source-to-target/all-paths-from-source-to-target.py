@@ -1,20 +1,19 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        paths = []
-        n = len(graph) - 1
-        print(n)
-        def dfs(s, path):
-            path.append(s)
-            if s == n:
-                paths.append(path[:])
+        target = len(graph) - 1
+        res = []
+        def dfs(node, store):
+            if node == target:
+                res.append(store[:])
                 return
 
-            for neigh in graph[s]:
-                dfs(neigh, path)
-                path.pop()
-            return 
+            for neigh in graph[node]:
+                store.append(neigh)
+                dfs(neigh, store)
+                store.pop()
+            return
 
-        dfs(0, [])
-        return paths
-        
+        dfs(0, [0])
+        return res
+
         
