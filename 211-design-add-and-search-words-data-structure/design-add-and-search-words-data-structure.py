@@ -13,19 +13,23 @@ class WordDictionary:
         node["/"] = 1        
 
     def search(self, word: str) -> bool:
-        def dfs(node, i):
-            if i == len(word):
-                return "/" in node
-            ch = word[i]
-            if ch == ".":
-                for child in node:
-                    if child != "/" and dfs(node[child], i + 1):
-                        return True
-                return False
-            if ch not in node:
-                return False
-            return dfs(node[ch], i + 1)
-        return dfs(self.root, 0)
+        word = [(word, self.root)]
+        while word:
+            pop_word, node = word.pop()
+            for i, ch in enumerate(pop_word):
+                if ch == '.':
+                    for child in node:
+                        if child != "/" and i + 1 < len(pop_word):
+                            word.append((pop_word[i + 1:], node[child]))
+                        if child != '/' and '/' in node[child] and i + 1 >= len(pop_word):
+                            return True
+                    break
+                if ch not in node: break
+                node = node[ch]
+                if "/" in node and i + 1 == len(pop_word):
+                    return True
+                i += 1
+        return False
 
         
 
