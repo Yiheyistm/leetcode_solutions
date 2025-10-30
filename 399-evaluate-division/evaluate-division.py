@@ -1,17 +1,5 @@
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        def dfs(s,d):
-            if s == d:
-                return 1
-
-            visit.add(s)
-            for neigh,val in graph[s]:
-                if neigh not in visit:
-                    prod = dfs(neigh, d)
-                    if prod != -1:
-                        prod *= val
-                        return prod
-            return -1
 
         graph = defaultdict(list)
         for eq,val in zip(equations,values):
@@ -23,7 +11,18 @@ class Solution:
         for x, y in queries:
             if x in graph and y in graph:
                 visit = set()
-                res.append(dfs(x, y))
+                qq = deque([(x,1)])
+                while qq:
+                    f, prod = qq.popleft()
+                    if y == f:
+                        res.append(prod)
+                        break
+                    visit.add(f)
+                    for neigh, val in graph[f]:
+                        if neigh not in visit:
+                            qq.append((neigh, prod * val))
+                else:
+                    res.append(-1)                    
             else: res.append(-1)
         return res
 
