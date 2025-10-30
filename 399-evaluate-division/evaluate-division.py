@@ -1,29 +1,43 @@
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        parent = {}
+        weight = {}
+        def find(p):
+            if parent[p] != p:
+                orig_parent = parent[p]
+                parent[p] = find(orig_parent)
+                weight[p] *= weight[orig_parent]
+            return parent[p]
 
-        graph = defaultdict(list)
+        def union(x, y, val):
+            if x not in parent:
+                parent[x] = x
+                weight[x] = 1
+            if y not in parent:
+                parent[y] = y
+                weight[y] = 1
+
+            px, py = find(x), find(y)
+            if px == py:
+                return
+            parent[px] = py
+            weight[px] = val * weight[y] / weight[x]
+
+        def is_connected(x, y):
+            if x not in parent or y not in parent:
+                return -1
+            px, py = find(x), find(y)
+            if px != py:
+                return - 1
+            return weight[x] / weight[y]
+            
+
         for eq,val in zip(equations,values):
-            x,y = eq
-            graph[x].append((y,val))
-            graph[y].append((x, 1 / val))
-
+            union(eq[0], eq[1], val)
+            
         res = []
         for x, y in queries:
-            if x in graph and y in graph:
-                visit = set()
-                qq = deque([(x,1)])
-                while qq:
-                    f, prod = qq.popleft()
-                    if y == f:
-                        res.append(prod)
-                        break
-                    visit.add(f)
-                    for neigh, val in graph[f]:
-                        if neigh not in visit:
-                            qq.append((neigh, prod * val))
-                else:
-                    res.append(-1)                    
-            else: res.append(-1)
+            res.append(is_connected(x, y))
         return res
 
         
