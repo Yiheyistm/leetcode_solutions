@@ -1,90 +1,74 @@
-class Solution(object):
-    def findXSum(self, nums, k, x):
-        """
-        This code is copied not mine \U0001f601\U0001f601
-        """
+class Solution:
+    def findXSum(self, nums: List[int], k: int, x: int) -> List[int]:
+        '''
+        Let's try to add new nums on the topX and pop the smallest one and add it to the remain after update its freq
+        and when remove element also check if the num is in topx and if any change is happen make sure to update the both topx and remain
+        since we always try to add the num on the topX so we have to make sure the lenght of the topX not greater than x value (balance)
+        also update the curr_sum through the process
+
+        '''
+        topX = SortedList() # (freq, val)
+        remain = SortedList() # (freq, val)
+        freq = defaultdict(int) # val -> freq
+        curr_sum = 0
+
+        def balance():
+            nonlocal curr_sum
+            if len(topX) > x:
+                f, n = topX.pop(0) # since it is BST it costs only log(n)
+                curr_sum -= f * n
+                remain.add((f, n))
+
+            if len(topX) < x and remain:
+                f, n = remain.pop() # remove the largest
+                topX.add((f, n))
+                curr_sum += f * n
+
+            if topX and remain and topX[0] < remain[-1]:
+                f1, n1 = topX.pop(0)
+                f2, n2 = remain.pop()
+                topX.add((f2, n2))
+                remain.add((f1, n1))
+                curr_sum += (f2*n2 - f1*n1)
+
+
+        def add(num):
+            nonlocal curr_sum
+            if num in freq: # if num found the freq we have to be remove wherever it found inorder to update it
+                if (freq[num], num) in topX: # look up on sorted list costs log(n)
+                    topX.remove((freq[num], num))
+                    curr_sum -= (freq[num] * num) # since we remove num we have to be remove it from the sum also
+                else:
+                    remain.remove((freq[num], num))
+
+            freq[num] += 1
+            topX.add((freq[num], num)) # always try to add it on the topX 
+            curr_sum += (freq[num] * num)
+            balance() # check if the topX is off by one element
+
+        def remove(num):
+            nonlocal curr_sum
+            if num in freq: # if num found the freq we have to be remove wherever it found inorder to update it
+                if (freq[num], num) in topX: # look up on sorted list costs log(n)
+                    topX.remove((freq[num], num))
+                    curr_sum -= (freq[num] * num) # since we remove num we have to be remove it from the sum also
+                else:
+                    remain.remove((freq[num], num))
+
+            freq[num] -= 1
+            topX.add((freq[num], num)) # always try to add it on the topX 
+            curr_sum += (freq[num] * num)
+            balance() # check if the topX is off by one element
 
         res = []
-
-        counts = defaultdict(int)
-        for i in range(k):
-            counts[nums[i]] += 1
-
-        low = []
-
-        for n, c in counts.items():
-            heapq.heappush(low, (-c, -n))
-
-        value = 0
-        high = []
-        high_nums = set()
-
-        while len(high_nums) < x and low:
-            c, n = heapq.heappop(low)
-            heapq.heappush(high, (-c, -n))
-            high_nums.add(-n)
-            value += c * n
-
-        res.append(value)
-
-        def process_num(num):
-            if num in high_nums:
-                heapq.heappush(high, (counts[num], num))
-            else:
-                heapq.heappush(low, (-counts[num], -num))
-
-        def clean_low():
-            while low and (counts[-low[0][1]] != -low[0][0] or -low[0][1] in high_nums):
-                heapq.heappop(low)
-
-        def clean_high():
-            while high and (counts[high[0][1]] != high[0][0] or high[0][1] not in high_nums):
-                heapq.heappop(high)
-
+        for i in range(k): # process the first k elements
+            add(nums[i])
         
-        for i in range(k, len(nums)):
-            leaving = nums[i - k]
-            entering = nums[i]
+        res.append(curr_sum)
 
-            if leaving == entering:
-                res.append(value)
-                continue
-
-            counts[leaving] -= 1
-            counts[entering] += 1
-
-            if leaving in high_nums:
-                value -= leaving
-
-            if entering in high_nums:
-                value += entering
-
-            process_num(leaving)
-            process_num(entering)
-
-            clean_low()
-            clean_high()
-
-            if low and high:
-                if -low[0][0] > high[0][0] or (-low[0][0] >= high[0][0] and -low[0][1] > high[0][1]):
-                    new_count, new_high = heapq.heappop(low)
-                    old_count, old_high = heapq.heappop(high)
-                    high_nums.remove(old_high)
-                    high_nums.add(-new_high)
-
-                    value -= (old_high * counts[old_high])
-                    value += (-new_high * counts[-new_high])
-                    heapq.heappush(high, (-new_count, -new_high))
-                    heapq.heappush(low, (-old_count, -old_high))
-
-            clean_low()
-
-            if low and len(high_nums) < x:
-                new_count, new_high = heapq.heappop(low)
-                value += (-new_high * counts[-new_high])
-                heapq.heappush(high, (-new_count, -new_high))
-                high_nums.add(-new_high)
-
-            res.append(value)
-
+        for i in range(k, len(nums)): # process the rest
+            remove(nums[i - k])
+            add(nums[i])
+            res.append(curr_sum)
+        
         return res
