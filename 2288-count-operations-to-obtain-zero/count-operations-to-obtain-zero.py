@@ -5,11 +5,13 @@ class Solution:
         
         cnt = 0
         while True:
-            num1, num2 = max(num1, num2), min(num1, num2)
-            cnt += 1
-            num1 -= num2
-            if num1 == 0:
+            mx, mn =max(num1, num2), min(num1, num2)
+            q, r = divmod(mx, mn)
+            cnt += q
+            if not r:
                 return cnt
+            num1 = mn
+            num2 = r
                 
         
         
