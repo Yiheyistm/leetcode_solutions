@@ -8,19 +8,10 @@ class Solution:
             else:
                 pairs[ch] = [i, inf]
 
-        unique = set()
-        pfx = []
-        r_sum = 0
-        for ch in s:
-            if ch not in unique:
-                r_sum += 1
-            unique.add(ch)
-            pfx.append(r_sum)
-
         cnt = 0
         for ch in set(s):
             f_idx, l_idx = pairs[ch]
-            if l_idx == inf or f_idx + 1 == l_idx: continue
+            if l_idx == inf: continue
             cnt += len(set(s[f_idx + 1: l_idx]))
         return cnt
         
