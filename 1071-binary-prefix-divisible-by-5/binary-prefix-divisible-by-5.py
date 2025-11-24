@@ -4,7 +4,5 @@ class Solution:
         res = []
         for bit in nums:
             num =(num * 2) + bit
-            if num % 5 == 0:
-                res.append(True)
-            else: res.append(False)
+            res.append(num % 5 == 0)
         return res
